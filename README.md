@@ -4,10 +4,10 @@
 This is only compatible with the 1.04 beta called "updatebranch" in Steam.
 
 # Priority Ingredients
-When using the auto fill option in the build screen, the game will search for compatible cards to add.  However, this search is alphabetical so for something that requires a hammering tool will try to use an axe over a stone.  The same is true for fat vs oil.
+When using the auto fill option in the build screen, the game will search for compatible cards to add.  However, this search is alphabetical so a blueprint that requires a hammering tool will use an axe over a stone.  The same is true for fat vs oil.
 
 This mod allows the user to define the list of cards to search for first.
-By default the list is: oil, stone, sharpened stone.  The preferred cards and search order can be configured.
+The preferred cards and search order can be configured and is listed in the settings section below.
 
 # Settings
 |Name|Default|Description|

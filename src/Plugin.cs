@@ -19,8 +19,8 @@ namespace PriorityIngredients
 
             Log = Logger;
 
-            CardPriorityList = Config.Bind("General", nameof(CardPriorityList), 
-                "LQ_Oil,Stone,StoneSharpened",
+            CardPriorityList = Config.Bind("General", nameof(CardPriorityList),
+                "LQ_Oil,Stone,StoneSharpened,StoneAxe,AxeFlint,AxeCopper,AxeScrap,AxeSurvival,AxeSurvivalBlunt",
                 @"A comma delimited list of card names. Indicates which cards to search for first before any searching for any other compatible cards. A list of cards can be found at https://github.com/NBKRedSpy/CardSurvival-DoNotSteal/blob/master/CardList.txt").Value;
 
             Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);

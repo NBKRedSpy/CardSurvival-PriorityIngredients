@@ -12,7 +12,10 @@ By default the list is: oil, stone, sharpened stone.  The preferred cards and se
 # Settings
 |Name|Default|Description|
 |--|--|--|
-|CardPriorityList|LQ_Oil,Stone,StoneSharpened|A comma delimited list of card names to use, in order of preference.  The full list of cards can be found at https://github.com/NBKRedSpy/CardSurvival-DoNotSteal/blob/master/CardList.txt|
+|CardPriorityList|(See Below)|A comma delimited list of card names to use, in order of preference.  The full list of cards can be found at https://github.com/NBKRedSpy/CardSurvival-DoNotSteal/blob/master/CardList.txt|
+
+Default cards and order:
+LQ_Oil,Stone,StoneSharpened,StoneAxe,AxeFlint,AxeCopper,AxeScrap,AxeSurvival,AxeSurvivalBlunt
 
 # Changing the Configuration
 All options are contained in the config file which is located at ```<Steam Directory>\steamapps\common\Card Survival Tropical Island\BepInEx\config\CardSurvival-PriorityIngredients.cfg```.
@@ -77,3 +80,6 @@ Safe to add and remove from existing saves.
 
 ## 1.0.0
 * Release
+
+## 1.0.1
+* Added entire family of axes

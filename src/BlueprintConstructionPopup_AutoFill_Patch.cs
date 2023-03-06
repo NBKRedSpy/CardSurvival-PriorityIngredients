@@ -66,7 +66,7 @@ namespace PriorityIngredients
         /// <summary>
         /// Given a list of ingredient cards, reorders the source card list
         /// so the priority ingredients are at the start of the list, in order
-        /// of the prvided priority list.
+        /// of the provided priority list.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -74,17 +74,17 @@ namespace PriorityIngredients
         {
 
             //Get the cards that match the priority ingredients, and order by the priority list source's order.
-            var selectedItems = _priorityCards.Join(source, inner => inner.CardName, outer => outer.name, 
+            List<CardData> priorityCards = _priorityCards.Join(source, inner => inner.CardName, outer => outer.name, 
                     (inner, outer) => new { inner, outer })
                 .OrderBy(x => x.inner.Sequence)
                 .Select(x => x.outer)
                 .ToList();
 
-            var newCardList = source
-                .Where(x => !selectedItems.Contains(x))
+            List<CardData> newCardList = source
+                .Where(x => !priorityCards.Contains(x))
                 .ToList();
 
-            newCardList.InsertRange(0, selectedItems);
+            newCardList.InsertRange(0, priorityCards);
 
             return newCardList;
         }

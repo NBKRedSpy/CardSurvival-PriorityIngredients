@@ -25,9 +25,24 @@ namespace PriorityIngredients
                 @"A comma delimited list of card names. Indicates which cards to search for first before any searching for any other compatible cards. A list of cards can be found at https://github.com/NBKRedSpy/CardSurvival-DoNotSteal/blob/master/CardList.txt");
 
             Config.SettingChanged += Config_SettingChanged;
-
+            Config.ConfigReloaded += Config_ConfigReloaded;
             Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
+        }
+
+        private void Config_ConfigReloaded(object sender, EventArgs e)
+        {
+            try
+            {
+                Plugin.LogInfo($"Reloaded {DateTime.Now}");
+
+                BlueprintConstructionPopup_AutoFill_Patch.LoadCardPrioity();
+            }
+            catch (System.Exception)
+            {
+                Plugin.Log.LogError($"Error reloading settings");
+                throw;
+            }
         }
 
         private void Config_SettingChanged(object sender, SettingChangedEventArgs e)

@@ -78,8 +78,13 @@ Safe to add and remove from existing saves.
 
 # Change Log 
 
-## 1.0.0
-* Release
+## 1.1.0
+* Automatically reloads settings on config change.
 
 ## 1.0.1
 * Added entire family of axes
+
+## 1.0.0
+* Release
+
+

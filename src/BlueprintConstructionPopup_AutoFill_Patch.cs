@@ -13,12 +13,15 @@ namespace PriorityIngredients
     [HarmonyPatch(typeof(BlueprintConstructionPopup), "AutoFill")]
     public static class BlueprintConstructionPopup_AutoFill_Patch
     {
-        private static readonly List<CardPriority> _priorityCards;
+        private static List<CardPriority> _priorityCards;
 
-        static BlueprintConstructionPopup_AutoFill_Patch()
+        /// <summary>
+        /// Loads the cards from the Plugin settings.
+        /// </summary>
+        public static void LoadCardPrioity()
         {
-            List<string> cardNames = Plugin.CardPriorityList.Split(',')
-                .Select(x=> x.Trim())
+            List<string> cardNames = Plugin.CardPriorityList.Value.Split(',')
+                .Select(x => x.Trim())
                 .ToList();
 
             int sequence = 1;
@@ -26,6 +29,11 @@ namespace PriorityIngredients
             _priorityCards = cardNames
                 .Select(x => new CardPriority(sequence++, x))
                 .ToList();
+        }
+
+        static BlueprintConstructionPopup_AutoFill_Patch()
+        {
+            LoadCardPrioity();
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
@@ -12,7 +13,7 @@ namespace PriorityIngredients
     public class Plugin : BaseUnityPlugin
     {
         public static ManualLogSource Log { get; set; }
-        public static string CardPriorityList { get; private set; }
+        public static ConfigEntry<string> CardPriorityList { get; private set; }
 
         private void Awake()
         {
@@ -21,12 +22,31 @@ namespace PriorityIngredients
 
             CardPriorityList = Config.Bind("General", nameof(CardPriorityList),
                 "LQ_Oil,Stone,StoneSharpened,StoneAxe,AxeFlint,AxeCopper,AxeScrap,AxeSurvival,AxeSurvivalBlunt",
-                @"A comma delimited list of card names. Indicates which cards to search for first before any searching for any other compatible cards. A list of cards can be found at https://github.com/NBKRedSpy/CardSurvival-DoNotSteal/blob/master/CardList.txt").Value;
+                @"A comma delimited list of card names. Indicates which cards to search for first before any searching for any other compatible cards. A list of cards can be found at https://github.com/NBKRedSpy/CardSurvival-DoNotSteal/blob/master/CardList.txt");
+
+            Config.SettingChanged += Config_SettingChanged;
 
             Harmony harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
+        }
+
+        private void Config_SettingChanged(object sender, SettingChangedEventArgs e)
+        {
+
+            try
+            {
+                Plugin.LogInfo($"Reloaded {DateTime.Now}");
+
+                BlueprintConstructionPopup_AutoFill_Patch.LoadCardPrioity();
+            }
+            catch (System.Exception)
+            {
+                Plugin.Log.LogError($"Error changing {e.ChangedSetting.Definition.Key} settings");
+                throw;
+            }
 
         }
+
 
         public static void LogInfo(string text)
         {

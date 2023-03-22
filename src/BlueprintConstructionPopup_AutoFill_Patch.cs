@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
+using TranspileUtilities;
 using UnityEngine;
 
 namespace PriorityIngredients
@@ -45,29 +46,37 @@ namespace PriorityIngredients
 
 
             List<CodeInstruction> existingInstructions = instructions.ToList();
+            
+
 
             //Looking for:
             // List<CardData> allCards = blueprintStage.RequiredElements[i].AllCards;
-            List<CodeInstruction> newInstructions = new CodeMatcher(existingInstructions)
+
+            StackVariableInstruction cardListVariable = null;   //The stack allocated card list variable.
+
+            CodeMatcher codeMatcher = new CodeMatcher(existingInstructions);
+
+            codeMatcher
                 .MatchForward(true,
-                    new CodeMatch(OpCodes.Ldloc_S),
+                    new CodeMatch(x => x.IsLdloc()),
                     new CodeMatch(OpCodes.Ldelema, typeof(BlueprintElement)),
                     new CodeMatch(OpCodes.Call, getAllCardsInfo),
-                    new CodeMatch(OpCodes.Stloc_3)
+                    new CodeMatch(instruction => StackVariableInstruction.Create(true, instruction, out cardListVariable))
                    )
                 .ThrowIfNotMatch($"Could not find GetAllCards section")
                 .Advance(1)
 
                 //Call OrderByPriority
                 .Insert(
-                    new CodeInstruction(OpCodes.Ldloc_3),
+                    cardListVariable.Load,
                     CodeInstruction.Call(typeof(BlueprintConstructionPopup_AutoFill_Patch),
                         nameof(BlueprintConstructionPopup_AutoFill_Patch.OrderByPriority), new Type[] { typeof(List<CardData>) }),
-                    new CodeInstruction(OpCodes.Stloc_3)
+                    cardListVariable.Store
                 )
                 .InstructionEnumeration()
                 .ToList();
 
+            var newInstructions = codeMatcher.InstructionEnumeration() .ToList();  
             return newInstructions;
         }
 

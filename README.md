@@ -78,6 +78,9 @@ Safe to add and remove from existing saves.
 
 # Change Log 
 
+## 1.2.0
+* Internal only.  Makes load/store of stack variables handle differences in compiles.
+
 ## 1.1.0
 * Automatically reloads settings on config change.
 

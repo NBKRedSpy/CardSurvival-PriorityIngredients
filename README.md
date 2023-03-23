@@ -1,8 +1,5 @@
 ![Alt text](media/OilFatPreference.png)
 
-# v1.04 Note
-This is only compatible with the 1.04 beta called "updatebranch" in Steam.
-
 # Priority Ingredients
 When using the auto fill option in the build screen, the game will search for compatible cards to add.  However, this search is alphabetical so a blueprint that requires a hammering tool will use an axe over a stone.  The same is true for fat vs oil.
 
